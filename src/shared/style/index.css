@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@theme {
+    --font-snpro: snpro;
+}
+
+@font-face {
+    font-family: snpro;
+    src: url("SNPro.ttf");
+}
