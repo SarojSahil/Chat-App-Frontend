@@ -1,6 +1,6 @@
-import type { LoginRequest, LoginResponse, User } from "@/schema";
+import type { LoginRequest, LoginResponse, MessageResponse, User } from "@/schema";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import type { SyntheticEvent } from "react";
+import { useEffect, type SyntheticEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -17,12 +17,15 @@ const Login = () => {
                 },
                 body: JSON.stringify(request)
             });
+            if (!res.ok) {
+                throw new Error("Response Not OK.");
+            }
             return await res.json();
         }
     });
     const token = loginData?.token;
 
-    const { data: userData } = useQuery({
+    const { data: userData } = useQuery<User>({
         queryKey: ["auth/me"],
         queryFn: async () => {
             const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/me`, {
@@ -32,15 +35,33 @@ const Login = () => {
                     "Content-Type": "application/json"
                 },
             });
-            const data = await res.json() as User;
+            const data = await res.json();
             return data;
         },
         enabled: !!token
     });
 
-    if (userData?.id) {
-        navigate("chat");
-    }
+    const { data: userMessages } = useQuery<MessageResponse[]>({
+        queryKey: ["messages"],
+        queryFn: async () => {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/messages`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+            });
+            const data = await res.json();
+            return data;
+        },
+        enabled: !!token
+    })
+
+    useEffect(() => {
+        if (loginData && userData && userMessages) {
+            navigate("chat");
+        }
+    }, [loginData, userData, userMessages]);
 
     const handleSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault();

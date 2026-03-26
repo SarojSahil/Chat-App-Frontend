@@ -1,19 +1,20 @@
-import type { LoginResponse, Message, User } from "@/schema";
+import type { LoginResponse, MessageRequest, MessageResponse, User } from "@/schema";
 import { Client } from "@stomp/stompjs";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useRef, useState, type SyntheticEvent } from "react";
+import { useEffect, useRef, useState, type ChangeEvent, type SyntheticEvent } from "react";
 
 const Chat = () => {
 
     const queryClient = useQueryClient();
     const clientRef = useRef<Client>(null);
     const userRef = useRef<User>(null);
-    const [messages, setMessages] = useState<Message[]>([]);
+    const [messages, setMessages] = useState<MessageResponse[]>([]);
+    const [receiverId, setReceiverId] = useState<number>(0);
 
     useEffect(() => {
 
         //Setting Token
-        const loginData = queryClient.getMutationCache().find<LoginResponse>({ mutationKey: ["auth/login"] });
+        const loginData = queryClient.getMutationCache().find<LoginResponse>({ mutationKey: ["auth/login"], status: "success" });
         let token;
         if (loginData?.state.data) {
             token = loginData.state.data.token;
@@ -25,16 +26,21 @@ const Chat = () => {
             userRef.current = userData;
         }
 
+        //Setting Messages
+        const messagesData = queryClient.getQueryData<MessageResponse[]>(["messages"]);
+        if (messagesData) {
+            setMessages(messagesData);
+        }
+
         //Initializing Stomp Client
         const stompClient = new Client({
             brokerURL: `ws://localhost:8080/ws`,
-            debug: (msg) => console.log(msg),
             connectHeaders: {
                 Authorization: `Bearer ${token}`
             },
             onConnect: () => {
                 stompClient.subscribe("/user/queue/messages", (message) => {
-                    const newMessage: Message = JSON.parse(message.body);
+                    const newMessage: MessageResponse = JSON.parse(message.body);
                     setMessages(prev => [...prev, newMessage]);
                 })
             }
@@ -51,12 +57,10 @@ const Chat = () => {
 
     const send = (event: SyntheticEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const newMessage: Message = {
-            message: formData.get("message") as string,
-            receiver: formData.get("receiver") as string,
-            id: Date.now(),
-            sender: userRef.current?.username || "unknown"
+        const form = event.currentTarget;
+        const newMessage: MessageRequest = {
+            message: form["message"].value,
+            receiverId: parseInt(form["receiverId"].value),
         }
 
         if (clientRef.current) {
@@ -64,9 +68,12 @@ const Chat = () => {
                 destination: "/app/chat",
                 body: JSON.stringify(newMessage),
             });
-
-            setMessages((prev) => [...prev, newMessage]);
         }
+    }
+
+    const handleReceiverChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const receiver = parseInt(event.target.value);
+        setReceiverId(receiver)
     }
 
     return (
@@ -75,17 +82,19 @@ const Chat = () => {
             <form onSubmit={send}>
                 <label htmlFor="message">Message: </label>
                 <input type="text" name="message" id="message" className="border rounded mb-4" /><br />
-                <label htmlFor="receiver">Receiver: </label>
-                <input type="text" name="receiver" id="receiver" className="border rounded mb-4" /><br />
+                <label htmlFor="receiverId">Receiver ID: </label>
+                <input type="number" name="receiverId" id="receiverId" className="border rounded mb-4" value={receiverId} onChange={handleReceiverChange} /><br />
                 <button type="submit" className="min-w-32 block mx-auto py-1 rounded bg-blue-500 text-white">Send</button>
             </form>
             <ul>
                 {
-                    messages.map(message =>
-                        <li key={message.id} className={`w-40 max-w-160 mb-2 px-4 py-1.5 rounded-md ${userRef.current?.username === message.sender ? "ml-auto bg-emerald-500" : "mr-auto bg-white" }`}>
-                            {message.message}
-                        </li>
-                    )
+                    messages
+                        .filter((message) => (message.receiverId === receiverId || message.senderId === receiverId) && userRef.current?.id !== receiverId)
+                        .map(
+                            (message) => <li key={message.id} className={`w-40 max-w-160 mb-2 px-4 py-1.5 rounded-md ${userRef.current?.id === message.senderId ? "ml-auto bg-emerald-500" : "mr-auto bg-white"}`}>
+                                {message.message}
+                            </li>
+                        )
                 }
             </ul>
         </div>

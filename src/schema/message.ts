@@ -1,11 +1,12 @@
 export type MessageRequest = {
     message: string,
-    receiver: string
+    receiverId: number
 }
 
-export type Message = {
+export type MessageResponse = {
     id: number,
     message: string,
-    receiver: string,
-    sender: string
+    receiverId: number,
+    senderId: number,
+    timestamp: string
 }
