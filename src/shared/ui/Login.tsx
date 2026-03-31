@@ -1,4 +1,4 @@
-import type { LoginRequest, LoginResponse, MessageResponse, User } from "@/schema";
+import type { LoginRequest, LoginResponse, Message, User } from "@/schema";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, type SyntheticEvent } from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +7,7 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-    const { mutate, data: loginData } = useMutation<LoginResponse, Error, LoginRequest>({
+    const { mutate: login, data: loginData } = useMutation<LoginResponse, Error, LoginRequest>({
         mutationKey: ["auth/login"],
         mutationFn: async (request) => {
             const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/login`, {
@@ -35,13 +35,16 @@ const Login = () => {
                     "Content-Type": "application/json"
                 },
             });
+            if (!res.ok) {
+                throw new Error("Response Not OK.");
+            }
             const data = await res.json();
             return data;
         },
         enabled: !!token
     });
 
-    const { data: userMessages } = useQuery<MessageResponse[]>({
+    const { data: userMessages } = useQuery<Message[]>({
         queryKey: ["messages"],
         queryFn: async () => {
             const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/messages`, {
@@ -51,14 +54,34 @@ const Login = () => {
                     "Content-Type": "application/json"
                 },
             });
+            if (!res.ok) {
+                throw new Error("Response Not OK.");
+            }
             const data = await res.json();
             return data;
         },
         enabled: !!token
-    })
+    });
+
+    const { mutate: setMessageDeliver } = useMutation({
+        mutationKey: ["messages/delivered"],
+        mutationFn: async () => {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/messages/delivered`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+            if (!res.ok) {
+                throw new Error("Response Not OK.");
+            }
+        }
+    });
 
     useEffect(() => {
         if (loginData && userData && userMessages) {
+            setMessageDeliver();
             navigate("chat");
         }
     }, [loginData, userData, userMessages]);
@@ -70,7 +93,7 @@ const Login = () => {
             username: formData.get("username") as string,
             password: formData.get("password") as string
         }
-        mutate(request);
+        login(request);
     }
 
     return (
