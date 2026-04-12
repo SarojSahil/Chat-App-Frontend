@@ -5,7 +5,15 @@ import type { FC, PropsWithChildren } from "react";
 const client = new QueryClient({
     defaultOptions: {
         queries: {
-            refetchOnWindowFocus: false
+            refetchOnWindowFocus: false,
+            refetchOnMount: false,
+            refetchOnReconnect: false,
+            retry: false,
+            staleTime: Infinity,
+            gcTime: Infinity
+        },
+        mutations: {
+            retry: false
         }
     }
 });

@@ -1,11 +1,11 @@
-import QueryProvider from "./provider/QueryProvider";
-import AppRouter from "./route/AppRouter";
+import QueryProvider from "@/app/provider/QueryProvider";
+import AppRouter from "@/app/router/AppRouter";
 
 const App = () => {
 
   return (
     <QueryProvider>
-        <AppRouter />
+      <AppRouter />
     </QueryProvider>
   );
 }

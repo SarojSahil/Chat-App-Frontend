@@ -1,2 +1,2 @@
-export * from "./auth.ts";
-export * from "./message.ts";
+export * from "./Auth.ts";
+export * from "./Contact.ts";

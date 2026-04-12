@@ -1,0 +1,88 @@
+Table users {
+  id BigInt [primary key]
+  phoneNumber varchar [unique]
+  name varchar
+  password varchar
+  role SystemRole
+  created_at timestamp
+}
+
+enum SystemRole {
+  ROLE_USER
+  ROLE_ADMIN
+}
+
+Table Contact {
+  id BigInt [primary key]
+  owner_id BigInt [ref: > users.id]
+  contact_user_id BigInt [ref: > users.id]
+  name varchar
+  created_at timestamp
+}
+
+Table chats {
+  id BigInt [primary key]
+  type ChatType
+  created_at timestamp
+}
+
+enum ChatType {
+  ONE_TO_ONE
+  GROUP
+}
+
+Table chat_members {
+  id BigInt [primary key]
+  chat_id BigInt [ref: > chats.id]
+  user_id BigInt [ref: > users.id]
+  role MemberRole
+  joined_at timestamp
+  
+  // -- NEW COLUMNS --
+  left_at timestamp [null] // Soft-delete for users leaving a group
+  last_delivered_message_id BigInt [ref: > messages.id, null] // Delivery watermark
+  last_read_message_id BigInt [ref: > messages.id, null] // Read watermark
+
+  // -- NEW INDEX --
+  Indexes {
+    (chat_id, user_id) [unique] // Prevents duplicate members in the same chat
+  }
+}
+
+enum MemberRole {
+  MEMBER
+  ADMIN
+}
+
+Table messages {
+  id BigInt [primary key]
+  chat_id BigInt [ref: > chats.id]
+  sender_id BigInt [ref: > users.id]
+  content text
+  message_type MessageType
+  created_at timestamp
+  
+  // -- NEW COLUMN --
+  deleted_at timestamp [null] // Allows showing "This message was deleted"
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  VIDEO
+  FILE
+}
+
+// -- REMOVED message_status AND MessageStatus enum --
+
+Table groups {
+  id BigInt [primary key]
+  chat_id BigInt [ref: > chats.id, unique] // 1-1 mapping
+  name varchar
+  created_by BigInt [ref: > users.id]
+  created_at timestamp
+  
+  // -- NEW COLUMNS --
+  description text [null]
+  avatar_url varchar [null]
+}
