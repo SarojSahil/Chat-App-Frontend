@@ -29,9 +29,9 @@ export const httpClient = async ({ uri, method = "GET", body }: RestClientParams
 
     const contentType = res.headers.get("content-type");
 
-    if (!contentType || !contentType.includes("application/json")) {
-        return;
+    if (contentType && contentType.includes("application/json")) {
+        return res.json();
     }
 
-    return res.json();
+    return;
 };

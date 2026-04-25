@@ -22,7 +22,7 @@ export const ContactForm = () => {
     useEffect(() => {
         if (isSuccess) {
             reset();
-            navigate("/dashboard/contacts");
+            navigate("/dashboard/contact");
         }
     }, [isSuccess]);
 
@@ -42,7 +42,7 @@ export const ContactForm = () => {
                         <input className="border border-gray-300 rounded-md p-1.5 block w-full" type="text" name="phone" id="phone" />
                     </div>
                     <div className="flex gap-4">
-                        <button type="button" onClick={() => navigate("/dashboard/contacts")} className="flex-1 py-1 border rounded hover:bg-gray-200">
+                        <button type="button" onClick={() => navigate("/dashboard/contact")} className="flex-1 py-1 border rounded hover:bg-gray-200">
                             Cancel
                         </button>
 

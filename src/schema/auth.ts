@@ -10,6 +10,7 @@ export type RegisterRequest = LoginRequest & {
 export type AuthResponse = {
     token: string,
     userId: number,
+    phoneNumber: string,
     name: string,
     role: "ROLE_USER" | "ROLE_ADMIN"
 }

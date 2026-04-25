@@ -13,7 +13,7 @@ export const useLogin = () => {
         },
         onSuccess: (data) => {
             useAuthStore.getState().setAuth(data);
-            navigate("/dashboard/contacts");
+            navigate("/dashboard/contact");
         }
     });
 };

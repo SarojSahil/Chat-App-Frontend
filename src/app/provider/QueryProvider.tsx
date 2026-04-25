@@ -22,7 +22,7 @@ const QueryProvider: FC<PropsWithChildren> = ({ children }) => {
     return (
         <QueryClientProvider client={client}>
             {children}
-            <ReactQueryDevtools client={client} />
+            <ReactQueryDevtools buttonPosition="top-left" client={client} />
         </QueryClientProvider>
     );
 }

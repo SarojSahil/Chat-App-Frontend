@@ -41,9 +41,9 @@ export const Sidebar: FC<SidebarProps> = ({ open, setClose }) => {
           </button>
         </div>
         <div className="flex flex-col">
-          <NavLink to={"/dashboard/contacts"} onClick={setClose} className={({ isActive }) => `${isActive && "text-green-600"} flex items-center gap-2 py-3 px-4 hover:bg-gray-200`}><ContactRound />Contacts</NavLink>
-          <NavLink to={"/dashboard/conversations"} onClick={setClose} className={({ isActive }) => `${isActive && "text-green-600"} flex items-center gap-2 py-3 px-4 hover:bg-gray-200`}><MessagesSquare />Conversations</NavLink>
-          <button onClick={hanldeConsent} className="text-red-500 flex items-center gap-2 py-3 px-4 hover:bg-gray-200"><LogOut /> Logout</button>
+          <NavLink to={"/dashboard/contact"} onClick={setClose} className={({ isActive }) => `${isActive && "text-green-600"} flex items-center gap-2 py-3 px-4 hover:bg-gray-200`}><ContactRound />Contacts</NavLink>
+          <NavLink to={"/dashboard/conversation"} onClick={setClose} className={({ isActive }) => `${isActive && "text-green-600"} flex items-center gap-2 py-3 px-4 hover:bg-gray-200`}><MessagesSquare />Conversations</NavLink>
+          <button onClick={hanldeConsent} className="text-red-500 flex items-center gap-2 py-3 px-4 hover:bg-gray-200 cursor-pointer"><LogOut /> Logout</button>
         </div>
       </aside>
       <div className={`fixed inset-0 z-10 bg-black/50 sm:static ${open ? "block" : "hidden"}`} onClick={setClose}></div >

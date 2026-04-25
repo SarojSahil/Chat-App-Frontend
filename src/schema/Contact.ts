@@ -1,11 +1,17 @@
-export type TContact = {
+export type ContactUser = {
     id: number,
     name: string,
-    phoneNumber: string
+    phoneNumber: string,
 }
 
-export type ContactUpdateRequest = Pick<TContact, "name" | "id">;
+export type Contact = {
+    id: number,
+    name: string
+    user: ContactUser
+}
 
-export type ContactDeleteRequest = Pick<TContact, "id">;
+export type ContactUpdateRequest = Pick<Contact, "name" | "id">;
 
-export type ContactSaveRequest = Pick<TContact, "name" | "phoneNumber">;
+export type ContactDeleteRequest = Pick<Contact, "id">;
+
+export type ContactSaveRequest = Pick<Contact, "name"> & Pick<ContactUser, "phoneNumber">;
