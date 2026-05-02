@@ -21,7 +21,7 @@ export const httpClient = async ({ uri, method = "GET", body }: RestClientParams
 
     if (!res.ok) {
         if (res.status === 401) {
-            useAuthStore().clearAuth();
+            useAuthStore.getState().clearAuth();
             useAuthStore.persist.clearStorage();
         }
         throw new Error("Request failed");

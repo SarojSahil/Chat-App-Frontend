@@ -48,7 +48,7 @@ export const ContactView = () => {
 
     const handleSave = (e: SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
-        updateContact({ name: contactName, id: contactId });
+        updateContact({ contactName, contactId });
         setEditing(false);
     };
 

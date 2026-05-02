@@ -10,8 +10,16 @@ export type Contact = {
     user: ContactUser
 }
 
-export type ContactUpdateRequest = Pick<Contact, "name" | "id">;
+export type ContactUpdateRequest = {
+    contactId: number,
+    contactName: string
+}
 
-export type ContactDeleteRequest = Pick<Contact, "id">;
+export type ContactDeleteRequest = {
+    contactId: number
+}
 
-export type ContactSaveRequest = Pick<Contact, "name"> & Pick<ContactUser, "phoneNumber">;
+export type ContactSaveRequest = {
+    name: string,
+    phoneNumber: string
+}

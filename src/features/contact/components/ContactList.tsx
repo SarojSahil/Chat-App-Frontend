@@ -12,24 +12,24 @@ type ContactListProps = {
 export const ContactList: FC<ContactListProps> = ({ contacts }) => {
 
     const [isVisible, setVisible] = useState<boolean>(false);
-    const [id, setId] = useState<number>(-1);
+    const [contactId, setContactId] = useState<number>(-1);
 
     const { mutate: deleteContact, isSuccess, reset } = useDeleteContact();
 
     const handleCancel = () => {
-        setId(-1);
+        setContactId(-1);
         setVisible(false);
     }
 
     const handleOpenConsent = (e: SyntheticEvent, id: number) => {
         e.preventDefault();
         e.stopPropagation();
-        setId(id);
+        setContactId(id);
         setVisible(true);
     }
 
     const handleDelete = () => {
-        deleteContact({ id: id })
+        deleteContact({ contactId })
     }
 
     useEffect(() => {
@@ -44,7 +44,9 @@ export const ContactList: FC<ContactListProps> = ({ contacts }) => {
                     <Link key={contact.id}
                         to={`/dashboard/contact/${contact.id}`}
                         className="hover:bg-gray-50 cursor-pointer border border-gray-200 py-3 flex gap-2 items-center px-4 rounded-md shadow">
-                        <User2 className="border rounded-full" />
+                        <div className="border rounded-full p-1" >
+                            <User2 />
+                        </div>
                         <span className="flex-1">{contact.name}</span>
                         <Trash2 className="text-red-500" onClick={(e) => handleOpenConsent(e, contact.id)} />
                     </Link>

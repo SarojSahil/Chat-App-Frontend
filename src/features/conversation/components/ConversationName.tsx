@@ -14,8 +14,8 @@ export const ConversationName: FC<ChatNameProps> = ({ conversation }) => {
 
     return (
         <div className="flex items-center gap-4">
-            <div>
-                <User2 className="rounded-full border border-gray-300 p-1" size={36} />
+            <div className="border rounded-full p-1" >
+                <User2 />
             </div>
             {
                 contact
@@ -25,8 +25,8 @@ export const ConversationName: FC<ChatNameProps> = ({ conversation }) => {
                     </div>
                     :
                     <div>
-                        <div className="text-lg font-medium">+91 {conversation.otherPerson.phoneNumber}</div>
-                        <div className="text-sm font-light text-neutral-400">~ {conversation.otherPerson.name}</div>
+                        <p className="text-lg font-medium">+91 {conversation.otherPerson.phoneNumber}</p>
+                        <p className="text-sm font-light text-neutral-400">~ {conversation.otherPerson.name}</p>
                     </div>
             }
         </div>

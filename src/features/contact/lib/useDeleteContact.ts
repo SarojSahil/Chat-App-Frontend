@@ -12,7 +12,7 @@ export const useDeleteContact = () => {
             queryClient.setQueryData<Contact[]>(["/api/contact"], (oldData) => {
                 if (!oldData) return [];
 
-                return oldData.filter(contact => contact.id !== variable.id);
+                return oldData.filter(contact => contact.id !== variable.contactId);
             });
         }
     });

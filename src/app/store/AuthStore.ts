@@ -12,14 +12,16 @@ export const useAuthStore = create<AuthStore>()(
     persist(
         (set) => ({
             auth: null,
-
-            setAuth: (auth) => set({ auth }),
-
-            clearAuth: () => set({ auth: null })
+            setAuth(auth) {
+                set({ auth });
+            },
+            clearAuth() {
+                set({ auth: null });
+            }
         }),
         {
             name: "auth",
-            partialize: (state) => ({auth: state.auth})
+            partialize: (state) => ({ auth: state.auth })
         }
     )
 );
