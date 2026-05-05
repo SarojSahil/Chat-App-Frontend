@@ -10,6 +10,8 @@ import { Loader } from "@/components/common";
 import { MessageComp } from "./MessageComp";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import { getZego } from "@/lib";
+import type { Conversation } from "@/schema";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const ConversationView = () => {
 
@@ -28,6 +30,8 @@ export const ConversationView = () => {
 
     const formRef = useRef<HTMLFormElement>(null);
 
+    const queryClient = useQueryClient();
+
     useEffect(() => {
         if (inView && hasNextPage && !isFetchingNextPage) {
             fetchNextPage();
@@ -40,6 +44,20 @@ export const ConversationView = () => {
             navigate(`/dashboard/conversation/${newConversation.id}`, { replace: true });
         }
     }, [newConversation]);
+
+    useEffect(() => {
+        if (conversation) {
+            queryClient.setQueryData<Conversation[]>(["/api/conversation"], (oldData) => {
+                if (!oldData) return oldData;
+
+                return oldData.map(conv =>
+                    conv.id === conversation.id
+                        ? { ...conv, hasNewMessage: false }
+                        : conv
+                );
+            });
+        }
+    }, [conversation]);
 
     useEffect(() => {
         if (isSuccess && formRef.current) {
@@ -86,16 +104,29 @@ export const ConversationView = () => {
     return (
         conversation
         &&
-        <div className="flex-1 flex flex-col bg-gray-300">
-            <div className="flex justify-between items-center text-lg p-4 border-b border-b-gray-200 bg-white">
-                <ConversationName conversation={conversation} />
-                <div className="flex gap-2">
-                    <button onClick={handleCall} className="border cursor-pointer rounded-full p-1 hover:bg-gray-100">
-                        <PhoneCall />
-                    </button>
+        <div id="conversationViewContainer" className="flex-1 flex flex-col bg-[url(/image.png)]">
+            <div className="flex items-center justify-between px-4 py-4 bg-white border-b border-zinc-200">
+
+                {/* Left: user info */}
+                <div className="flex-1 min-w-0">
+                    <ConversationName conversation={conversation} />
                 </div>
+
+                {/* Right: actions */}
+                <div className="flex items-center gap-2">
+
+                    <button
+                        onClick={handleCall}
+                        className="w-12 h-12 flex items-center justify-center rounded-full bg-blue-100 hover:bg-blue-600 hover:text-white transition active:scale-85"
+                        aria-label="Start call"
+                    >
+                        <PhoneCall size={24} />
+                    </button>
+
+                </div>
+
             </div>
-            <div className="flex-1 overflow-y-auto flex flex-col-reverse gap-2 px-4">
+            <div className="flex-1 overflow-y-auto flex flex-col-reverse gap-2 px-4 bg-blue-100">
                 {
                     messageData?.pages.map(page => {
                         return page.content.map(msg => <MessageComp key={msg.id} message={msg} />)
@@ -105,11 +136,11 @@ export const ConversationView = () => {
                     {isFetchingNextPage && <Loader />}
                 </div>
             </div>
-            <form className="flex p-2 bg-transparent gap-2" onSubmit={handleSendMessage} ref={formRef}>
+            <form className="flex p-2 bg-blue-100 gap-2" onSubmit={handleSendMessage} ref={formRef}>
                 <label htmlFor="message" className="sr-only">message</label>
                 <AutosizeTextarea name="message" id="message" />
-                <button className="bg-green-500 hover:bg-green-700 text-white rounded-full p-2 self-end">
-                    <SendHorizonal />
+                <button className="bg-blue-600 hover:bg-blue-700 text-white rounded-full h-12 w-12 grow-0 grid place-items-center">
+                    <SendHorizonal size={24} />
                 </button>
             </form>
         </div>

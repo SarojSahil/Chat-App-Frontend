@@ -3,10 +3,6 @@ export type LoginRequest = {
     password: string
 }
 
-export type RegisterRequest = LoginRequest & {
-    name: string
-}
-
 export type AuthResponse = {
     token: string,
     userId: number,

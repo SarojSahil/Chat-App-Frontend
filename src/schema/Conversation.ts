@@ -3,7 +3,9 @@ import type { ContactUser } from "@/schema/Contact"
 export type Conversation = {
     id: number,
     otherPerson: ContactUser,
-    isVirtual?: boolean;
+    isVirtual?: boolean,
+    createdAt: string,
+    hasNewMessage?: boolean
 }
 
 export type MessageSendRequest = {

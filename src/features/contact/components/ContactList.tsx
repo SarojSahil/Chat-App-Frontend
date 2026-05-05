@@ -1,7 +1,7 @@
 import type { Contact } from "@/schema";
 import { Trash2, User2 } from "lucide-react";
 import { useEffect, useState, type FC, type SyntheticEvent } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { ConsentModal } from "@/components/common";
 import { useDeleteContact } from "@/features/contact/lib";
 
@@ -39,19 +39,49 @@ export const ContactList: FC<ContactListProps> = ({ contacts }) => {
 
     return (
         <>
-            <div className="p-4 space-y-2 w-full">
+            <div className="w-full bg-white">
+
                 {contacts.map((contact) => (
-                    <Link key={contact.id}
+                    <NavLink
+                        key={contact.id}
                         to={`/dashboard/contact/${contact.id}`}
-                        className="hover:bg-gray-50 cursor-pointer border border-gray-200 py-3 flex gap-2 items-center px-4 rounded-md shadow">
-                        <div className="border rounded-full p-1" >
-                            <User2 />
+                        className="flex items-center gap-4 px-4 py-4 border-b border-zinc-200 hover:bg-blue-100 active:bg-zinc-100 transition"
+                    >
+
+                        {/* Avatar */}
+                        {
+                            contact.user.profilePictureUrl
+                                ?
+                                <img
+                                    src={"http://localhost" + contact.user.profilePictureUrl}
+                                    className="w-12 h-12 rounded-full object-cover"
+                                />
+                                :
+                                <div className="w-12 h-12 flex items-center justify-center rounded-full bg-blue-600 text-white">
+                                    <User2 size={24} />
+                                </div>
+                        }
+
+                        {/* Name */}
+                        <div className="flex-1 min-w-0">
+                            <p className="text-lg font-semibold text-zinc-900 truncate">
+                                {contact.name}
+                            </p>
                         </div>
-                        <span className="flex-1">{contact.name}</span>
-                        <Trash2 className="text-red-500" onClick={(e) => handleOpenConsent(e, contact.id)} />
-                    </Link>
+
+                        {/* Delete */}
+                        <button
+                            onClick={(e) => handleOpenConsent(e, contact.id)}
+                            className="p-2.5 rounded-lg hover:bg-red-600 active:scale-80 bg-red-500 transition text-white"
+                        >
+                            <Trash2 size={24} className="" />
+                        </button>
+
+                    </NavLink>
                 ))}
+
             </div>
+
             <ConsentModal
                 open={isVisible}
                 handleCancel={handleCancel}
@@ -62,4 +92,4 @@ export const ContactList: FC<ContactListProps> = ({ contacts }) => {
             />
         </>
     );
-}
+};

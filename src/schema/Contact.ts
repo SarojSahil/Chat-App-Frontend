@@ -2,6 +2,7 @@ export type ContactUser = {
     id: number,
     name: string,
     phoneNumber: string,
+    profilePictureUrl: string
 }
 
 export type Contact = {
@@ -20,6 +21,6 @@ export type ContactDeleteRequest = {
 }
 
 export type ContactSaveRequest = {
-    name: string,
+    contactName: string,
     phoneNumber: string
 }

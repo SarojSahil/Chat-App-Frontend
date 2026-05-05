@@ -10,34 +10,49 @@ type ConsentModalProps = {
     action: string
 };
 
-export const ConsentModal: FC<ConsentModalProps> = ({ open, handleCancel, handleAction, action, message, title }) => {
+export const ConsentModal: FC<ConsentModalProps> = ({
+    open,
+    handleCancel,
+    handleAction,
+    action,
+    message,
+    title
+}) => {
     if (!open) return null;
 
     return createPortal(
-        <div className="fixed inset-0 bg-black/50 grid place-items-center z-50 p-4">
-            <div className="bg-white rounded-lg p-6 shadow-lg max-w-sm w-full">
-                <h2 className="text-lg font-semibold mb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+
+            {/* Modal */}
+            <div className="w-full max-w-sm rounded-xl bg-white border border-zinc-200 shadow-xl p-8 animate-in fade-in zoom-in-95 duration-200">
+
+                {/* Title */}
+                <h2 className="text-lg font-semibold text-zinc-900 mb-2">
                     {title}
                 </h2>
 
-                <p className="text-sm text-gray-600 mb-6">
+                {/* Message */}
+                <p className="text-sm text-zinc-700 mb-6 leading-relaxed">
                     {message}
                 </p>
 
+                {/* Actions */}
                 <div className="flex justify-end gap-3">
+
                     <button
                         onClick={handleCancel}
-                        className="px-4 py-1 border rounded hover:bg-gray-200"
+                        className="px-8 py-2.5 rounded-lg border active:scale-80 border-zinc-500 hover:bg-zinc-100 transition text-sm font-medium"
                     >
                         Cancel
                     </button>
 
                     <button
                         onClick={handleAction}
-                        className="px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                        className="px-8 py-2.5 rounded-lg bg-red-500 active:scale-80 text-white hover:bg-red-600 transition text-sm font-semibold shadow-md shadow-red-200"
                     >
                         {action}
                     </button>
+
                 </div>
             </div>
         </div>,

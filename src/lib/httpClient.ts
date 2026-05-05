@@ -6,17 +6,32 @@ type RestClientParams = {
     body?: any,
 };
 
+export class HttpError extends Error {
+    status: number;
+
+    constructor(status: number, message: string) {
+        super(message);
+        this.status = status;
+    }
+}
+
 export const httpClient = async ({ uri, method = "GET", body }: RestClientParams) => {
 
     const token = useAuthStore.getState().auth?.token;
 
+    const isFormData = body instanceof FormData;
+
     const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}${uri}`, {
         method,
         headers: {
-            "Content-Type": "application/json",
+            ...(!isFormData && { "Content-Type": "application/json" }),
             ...(token && { "Authorization": `Bearer ${token}` })
         },
-        body: body ? JSON.stringify(body) : undefined
+        body: body
+            ? isFormData
+                ? body
+                : JSON.stringify(body)
+            : undefined
     });
 
     if (!res.ok) {
@@ -24,7 +39,7 @@ export const httpClient = async ({ uri, method = "GET", body }: RestClientParams
             useAuthStore.getState().clearAuth();
             useAuthStore.persist.clearStorage();
         }
-        throw new Error("Request failed");
+        throw new HttpError(res.status, "Request Failed.");
     }
 
     const contentType = res.headers.get("content-type");
