@@ -81,7 +81,7 @@ export const Sidebar: FC<SidebarProps> = ({ open, setClose }) => {
         </div>
       </aside>
       <div
-        className={`fixed inset-0 z-10 bg-black/40 backdrop-blur-[1px] sm:hidden transition-opacity ${open ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+        className={`fixed inset-0 z-10 bg-black/50 backdrop-blur-[1px] sm:hidden transition-opacity ${open ? "opacity-100" : "opacity-0 pointer-events-none"}`}
         onClick={setClose}
       />
       <ConsentModal

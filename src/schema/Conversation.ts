@@ -11,15 +11,21 @@ export type Conversation = {
 export type MessageSendRequest = {
     conversationId?: number,
     receiverId?: number,
-    content: string
+    content: string,
+    type: "TEXT" | "DOC"
 }
 
 export type Message = {
-    id: number;
-    content: string;
-    conversationId: number;
-    senderId: number;
-    createdAt: string;
+    id: number,
+    content: string,
+    conversationId: number,
+    senderId: number,
+    createdAt: string,
+    type: "TEXT" | "DOC"
+}
+
+export type GeneratedMessage = {
+    message: string
 }
 
 export type Slice<T> = {

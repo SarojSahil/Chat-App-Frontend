@@ -17,11 +17,13 @@ export const Header: FC<HeaderProps> = ({ setOpen }) => {
                 <Menu size={22} />
             </button>
 
-            <div className="flex items-center gap-3 font-bold text-xl tracking-tight">
-                <div className="w-10 h-10 rounded-lg bg-emerald-500 flex items-center justify-center text-white shadow-md">
-                    💬
+            <div className="flex items-center gap-3 font-bold text-2xl tracking-tight">
+                <div className="mx-auto w-12 h-12 rounded-lg bg-blue-600 flex items-center justify-center shadow-lg">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                    </svg>
                 </div>
-                Connect
+                Talksy
             </div>
         </header>
     );
