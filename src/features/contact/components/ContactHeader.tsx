@@ -16,7 +16,7 @@ export const ContactHeader = () => {
 
             <Link
                 to={"/dashboard/contact/add"}
-                className="p-2.5 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 active:scale-80 transition"
+                className="p-2.5 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 active:scale-95 transition"
             >
                 <Plus size={24} />
             </Link>

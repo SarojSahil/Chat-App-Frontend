@@ -99,13 +99,13 @@ export const Login = () => {
                     />
 
                     <input
-                        name="password" type="password" required placeholder="password"
+                        name="password" type="password" required placeholder="Password"
                         className="placeholder:font-normal font-medium text-lg w-full px-5 py-2.5 rounded-lg border border-zinc-200 bg-zinc-50 focus:bg-white focus:ring-2 outline-none transition-all"
                     />
 
                     <button
                         type="submit" disabled={isPending}
-                        className="w-full py-2.5 text-lg mt-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium shadow-lg transition active:scale-80 disabled:opacity-50"
+                        className="w-full py-2.5 text-lg mt-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium shadow-lg transition active:scale-95 disabled:opacity-50"
                     >
                         {isPending ? "Connecting..." : "Log In"}
                     </button>

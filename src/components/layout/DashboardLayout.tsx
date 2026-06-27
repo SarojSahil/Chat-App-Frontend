@@ -6,7 +6,7 @@ export const DashboardLayout = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="font-snpro flex flex-col h-dvh">
+    <div className="flex flex-col h-dvh">
       <Header setOpen={() => setOpen(true)} />
 
       <main className="w-full flex flex-1 overflow-hidden">

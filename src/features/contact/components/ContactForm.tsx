@@ -31,7 +31,6 @@ export const ContactForm = () => {
 
             <div className="w-full max-w-md mx-auto bg-white rounded-2xl border border-zinc-200 shadow-md p-6">
 
-                {/* Header */}
                 <h2 className="text-xl font-semibold text-zinc-900">
                     Add New Contact
                 </h2>
@@ -39,17 +38,14 @@ export const ContactForm = () => {
                     Add someone to your network
                 </p>
 
-                {/* Avatar */}
                 <div className="flex justify-center mb-6">
                     <div className="w-34 h-34 rounded-full bg-zinc-100 flex items-center justify-center border border-zinc-200">
                         <User size={40} className="text-zinc-500" />
                     </div>
                 </div>
 
-                {/* Form */}
                 <form className="space-y-5" onSubmit={handleAddContact}>
 
-                    {/* Name */}
                     <div>
                         <label className="block text-base! font-medium text-zinc-700 mb-1">
                             Name
@@ -62,7 +58,6 @@ export const ContactForm = () => {
                         />
                     </div>
 
-                    {/* Phone */}
                     <div>
                         <label className="block text-base! font-medium text-zinc-700 mb-1">
                             Phone
@@ -75,20 +70,19 @@ export const ContactForm = () => {
                         />
                     </div>
 
-                    {/* Actions */}
                     <div className="flex gap-3 pt-2">
 
                         <button
                             type="button"
                             onClick={() => navigate("/dashboard/contact")}
-                            className="flex-1 py-2.5 rounded-lg border active:scale-80 border-zinc-200 text-zinc-700 hover:bg-zinc-100 transition font-medium"
+                            className="flex-1 py-2.5 rounded-lg border active:scale-95 border-zinc-200 text-zinc-700 hover:bg-zinc-100 transition font-medium"
                         >
                             Cancel
                         </button>
 
                         <button
                             type="submit"
-                            className="flex-1 py-2.5 rounded-lg active:scale-80 bg-blue-600 text-white hover:bg-blue-700 transition font-semibold shadow-md"
+                            className="flex-1 py-2.5 rounded-lg active:scale-95 bg-blue-600 text-white hover:bg-blue-700 transition font-semibold shadow-md"
                         >
                             {isPending ? "Saving..." : "Save"}
                         </button>

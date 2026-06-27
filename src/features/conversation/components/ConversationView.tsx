@@ -12,7 +12,7 @@ import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import { getZego } from "@/lib";
 import type { Conversation } from "@/schema";
 import { useQueryClient } from "@tanstack/react-query";
-import { Editor } from "@/features/editor/components/Editor";
+import { Editor } from "@/features/editor/components";
 import { toast } from "react-toastify";
 import { useGenerateMessage } from "../lib/useGenerateMessage";
 
@@ -213,7 +213,7 @@ export const ConversationView = () => {
                 <form className="flex p-2 bg-blue-100 gap-2" onSubmit={getFormData} ref={formRef}>
                     <label htmlFor="message" className="sr-only">message</label>
                     <AutosizeTextarea name="message" id="message" />
-                    <button className="bg-blue-600 active:scale-80 transition hover:bg-blue-700 text-white rounded-full h-12 w-12 grow-0 grid place-items-center">
+                    <button className="bg-blue-600 active:scale-95 transition hover:bg-blue-700 text-white rounded-full h-12 w-12 grow-0 grid place-items-center">
                         <SendHorizonal size={24} />
                     </button>
                 </form>
