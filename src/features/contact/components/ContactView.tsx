@@ -74,7 +74,6 @@ export const ContactView = () => {
         <div className="flex-1 flex flex-col border-l border-zinc-200 bg-zinc-50 py-4 overflow-y-auto">
             <div className="w-full max-w-md bg-white rounded-2xl border border-zinc-200 shadow-md p-6 mx-auto">
 
-                {/* Top Bar */}
                 <div className="flex items-center justify-between">
 
                     <h3 className="text-xl font-semibold text-zinc-900">
@@ -84,7 +83,7 @@ export const ContactView = () => {
                     {!editing && (
                         <button
                             onClick={() => setEditing(true)}
-                            className="flex items-center gap-2 p-2.5 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition active:scale-80"
+                            className="flex items-center gap-2 p-2.5 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition active:scale-95"
                         >
                             <Edit size={24} />
                             Edit
@@ -92,17 +91,15 @@ export const ContactView = () => {
                     )}
                 </div>
 
-                {/* Content */}
                 <div className="flex-1 overflow-auto">
 
-                    {/* Profile Section */}
                     <div className="bg-white border-b border-zinc-200 py-6 flex flex-col items-center">
 
                         {
                             contact.user.profilePictureUrl
                                 ?
                                 <img
-                                    src={"http://localhost" + contact.user.profilePictureUrl}
+                                    src={contact.user.profilePictureUrl}
                                     className="w-34 h-34 rounded-full object-cover border border-zinc-200"
                                 />
                                 :
@@ -121,21 +118,19 @@ export const ContactView = () => {
 
                         <button
                             onClick={handleOpenConversation}
-                            className="mt-4 flex items-center gap-2 p-2.5 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition active:scale-80"
+                            className="mt-4 flex items-center gap-2 p-2.5 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition active:scale-95"
                         >
                             <MessageCircle size={24} />
                             Message
                         </button>
                     </div>
 
-                    {/* Details Form */}
                     <form className="max-w-md mx-auto p-5 space-y-5" onSubmit={handleSave}>
 
                         <h4 className="text-lg font-semibold text-zinc-900">
                             Details
                         </h4>
 
-                        {/* Name */}
                         <div>
                             <label className="block text-base! font-medium text-zinc-600 mb-1">
                                 Name
@@ -150,7 +145,6 @@ export const ContactView = () => {
                             />
                         </div>
 
-                        {/* Phone */}
                         <div>
                             <label className="block text-base! font-medium text-zinc-600 mb-1">
                                 Phone
@@ -160,21 +154,20 @@ export const ContactView = () => {
                             </div>
                         </div>
 
-                        {/* Actions */}
                         {(editing || isPending) && (
                             <div className="flex gap-3 pt-2">
 
                                 <button
                                     type="button"
                                     onClick={handleCancel}
-                                    className="text-lg font-medium flex-1 py-2.5 rounded-lg border border-zinc-200 text-zinc-700 hover:bg-zinc-100 transition active:scale-80"
+                                    className="text-lg font-medium flex-1 py-2.5 rounded-lg border border-zinc-200 text-zinc-700 hover:bg-zinc-100 transition active:scale-95"
                                 >
                                     Cancel
                                 </button>
 
                                 <button
                                     type="submit"
-                                    className="text-lg font-medium flex-1 py-2.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition active:scale-80"
+                                    className="text-lg font-medium flex-1 py-2.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition active:scale-95"
                                 >
                                     {isPending ? "Updating..." : "Save"}
                                 </button>

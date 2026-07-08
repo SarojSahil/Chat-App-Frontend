@@ -107,7 +107,7 @@ export const Editor = ({ handleSendMessage, close }: { handleSendMessage: (messa
                 </button>
 
                 <button className="flex items-center gap-2" onClick={() => editor.commands.deleteTable()}>
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg>
                     <div className="text-nowrap">Delete Table</div>
                 </button>
 
@@ -115,17 +115,17 @@ export const Editor = ({ handleSendMessage, close }: { handleSendMessage: (messa
 
             <button
                 onClick={() => handleSendMessage(JSON.stringify(editor.getJSON()))}
-                className="absolute z-20 bg-blue-600 bottom-4 right-4 hover:bg-blue-700 active:scale-80 transition text-white rounded-full h-12 w-12 grow-0 grid place-items-center">
+                className="absolute z-20 bg-blue-600 bottom-4 right-4 hover:bg-blue-700 active:scale-95 transition text-white rounded-full h-12 w-12 grow-0 grid place-items-center">
                 <SendHorizonal size={24} />
             </button>
 
             <button
                 onClick={close}
-                className="absolute z-20 bg-red-600 bottom-18 right-4 hover:bg-red-700 active:scale-80 transition text-white rounded-full h-12 w-12 grow-0 grid place-items-center">
+                className="absolute z-20 bg-red-600 bottom-18 right-4 hover:bg-red-700 active:scale-95 transition text-white rounded-full h-12 w-12 grow-0 grid place-items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg>
             </button>
 
-            <EditorContent editor={editor} className="tiptap-content  flex-1 overflow-y-auto [&>div]:outline-none! p-4" id="message-editor" />
+            <EditorContent editor={editor} className="tiptap-content flex-1 overflow-y-auto [&>div]:outline-none! p-4" id="message-editor" />
         </div>
     )
 }

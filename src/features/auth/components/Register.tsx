@@ -145,7 +145,7 @@ export const Register = () => {
                             className="w-full px-5 py-2.5 rounded-lg border border-zinc-200 bg-zinc-50 focus:bg-white focus:ring-2 outline-none text-lg font-medium placeholder:font-normal"
                         />
 
-                        <button className="w-full py-2.5 mt-2 text-lg font-medium rounded-lg bg-blue-600 hover:bg-blue-700 active:scale-80 transition text-white shadow-lg">
+                        <button className="w-full py-2.5 mt-2 text-lg font-medium rounded-lg bg-blue-600 hover:bg-blue-700 active:scale-95 transition text-white shadow-lg">
                             Continue
                         </button>
 
@@ -196,7 +196,7 @@ export const Register = () => {
                             <button
                                 type="button"
                                 onClick={() => setStep(1)}
-                                className="text-lg font-medium w-full py-2.5 rounded-lg border border-zinc-200 active:scale-80 transition"
+                                className="text-lg font-medium w-full py-2.5 rounded-lg border border-zinc-200 active:scale-95 transition"
                             >
                                 Back
                             </button>
@@ -204,7 +204,7 @@ export const Register = () => {
                             <button
                                 onClick={handleSubmit}
                                 disabled={isPending}
-                                className="w-full py-2.5 rounded-lg text-lg bg-blue-600 hover:bg-blue-700 active:scale-80 transition text-white font-medium"
+                                className="w-full py-2.5 rounded-lg text-lg bg-blue-600 hover:bg-blue-700 active:scale-95 transition text-white font-medium"
                             >
                                 {isPending ? "Creating..." : "Finish"}
                             </button>

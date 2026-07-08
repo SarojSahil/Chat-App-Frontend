@@ -19,7 +19,7 @@ export const ConversationLayout = () => {
 
     return (
         <>
-            <div className={`flex-1 ${match ? "block" : "hidden"} lg:block border-r border-gray-200`}>
+            <div className={`relative h-full overflow-y-auto flex-1 ${match ? "block" : "hidden"} lg:block border-r border-gray-200`}>
                 <ConversationHeader />
                 <ConversationListComp />
             </div>

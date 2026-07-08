@@ -20,25 +20,28 @@ export const useInitializeStomp = ({ queryClient, token }: StompClientProps) => 
     }
 
     const newClient = new Client({
-        brokerURL: `${import.meta.env.VITE_API_BASE_URL}/ws`,
+        brokerURL: `/ws`,
         connectHeaders: {
             Authorization: `Bearer ${token}`
         },
         debug: (msg) => console.log(msg)
     });
 
-    newClient.activate();
-
     newClient.onConnect = () => {
 
         newClient.subscribe("/user/queue/message", async (message) => {
             const newMessage: Message = JSON.parse(message.body);
             const data = queryClient.getQueryData<Conversation[]>(["/api/conversation"]);
-            const conversation = data?.find(c => c.id === newMessage.conversationId);
+            let conversation = data?.find(c => c.id === newMessage.conversationId);
 
             if (!conversation) {
-                queryClient.refetchQueries({ queryKey: ["/api/conversation"] });
-                return;
+                await queryClient.refetchQueries({ queryKey: ["/api/conversation"] });
+
+                const updatedData = queryClient.getQueryData<Conversation[]>(["/api/conversation"]);
+
+                conversation = updatedData?.find(c => c.id === newMessage.conversationId);
+
+                if (!conversation) return;
             }
 
             const isOnConversationRoute = window.location.pathname.startsWith("/dashboard/conversation");
@@ -83,5 +86,8 @@ export const useInitializeStomp = ({ queryClient, token }: StompClientProps) => 
             });
         });
     }
+
+    newClient.activate();
+
     setClient(newClient);
 }

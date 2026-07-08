@@ -48,12 +48,11 @@ export const ContactList: FC<ContactListProps> = ({ contacts }) => {
                         className="flex items-center gap-4 px-4 py-4 border-b border-zinc-200 hover:bg-blue-100 active:bg-zinc-100 transition"
                     >
 
-                        {/* Avatar */}
                         {
                             contact.user.profilePictureUrl
                                 ?
                                 <img
-                                    src={"http://localhost" + contact.user.profilePictureUrl}
+                                    src={contact.user.profilePictureUrl}
                                     className="w-12 h-12 rounded-full object-cover"
                                 />
                                 :
@@ -62,17 +61,15 @@ export const ContactList: FC<ContactListProps> = ({ contacts }) => {
                                 </div>
                         }
 
-                        {/* Name */}
                         <div className="flex-1 min-w-0">
                             <p className="text-lg font-semibold text-zinc-900 truncate">
                                 {contact.name}
                             </p>
                         </div>
 
-                        {/* Delete */}
                         <button
                             onClick={(e) => handleOpenConsent(e, contact.id)}
-                            className="p-2.5 rounded-lg hover:bg-red-600 active:scale-80 bg-red-500 transition text-white"
+                            className="p-2.5 rounded-lg hover:bg-red-600 active:scale-95 bg-red-500 transition text-white"
                         >
                             <Trash2 size={24} className="" />
                         </button>

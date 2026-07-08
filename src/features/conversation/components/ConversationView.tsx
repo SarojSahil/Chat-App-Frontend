@@ -12,7 +12,7 @@ import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import { getZego } from "@/lib";
 import type { Conversation } from "@/schema";
 import { useQueryClient } from "@tanstack/react-query";
-import { Editor } from "@/features/editor/components/Editor";
+import { Editor } from "@/features/editor/components";
 import { toast } from "react-toastify";
 import { useGenerateMessage } from "../lib/useGenerateMessage";
 
@@ -145,80 +145,87 @@ export const ConversationView = () => {
     };
 
     return (
-        (!editorVisible && conversation)
-            ?
-            <div id="conversationViewContainer" className="flex-1 flex flex-col bg-[url(/image.png)]">
-                <div className="flex items-center justify-between px-4 py-4 bg-white border-b border-zinc-200">
+        <>
+            {
+                (!editorVisible && conversation)
+                &&
+                <div id="conversationViewContainer" className="flex-1 flex flex-col bg-[url(/image.png)]">
+                    <div className="flex items-center justify-between px-4 py-4 bg-white border-b border-zinc-200">
 
-                    <div className="flex-1 min-w-0">
-                        <ConversationName conversation={conversation} />
+                        <div className="flex-1 min-w-0">
+                            <ConversationName conversation={conversation} />
+                        </div>
+
+                        <div className="relative">
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setMenuOpen(!menuOpen);
+                                }}
+                                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                                aria-label="Options"
+                            >
+                                <MoreVertical size={24} className="text-zinc-600" />
+                            </button>
+
+                            {menuOpen && (
+                                <div className="absolute right-0 mt-2 w-60 bg-white border border-zinc-200 rounded-lg shadow-lg z-50 py-1">
+                                    <button
+                                        onClick={handleCall}
+                                        className="w-full text-lg flex items-center gap-3 px-4 py-2 text-zinc-700 hover:bg-blue-100 transition-colors"
+                                    >
+                                        <PhoneCall size={18} className="text-blue-600" />
+                                        Start Call
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setEditorVisible(true);
+                                            setMenuOpen(false);
+                                        }}
+                                        className="w-full flex items-center gap-3 px-4 py-2 text-lg text-zinc-700 hover:bg-blue-100 transition-colors"
+                                    >
+                                        <FileText size={18} className="text-blue-600" />
+                                        Show Editor
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setMenuOpen(false);
+                                            improviseMessage();
+                                        }}
+                                        className="w-full flex items-center gap-3 px-4 py-2 text-lg text-zinc-700 hover:bg-blue-100 transition-colors"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#155dfc"><path d="m176-120-56-56 301-302-181-45 198-123-17-234 179 151 216-88-87 217 151 178-234-16-124 198-45-181-301 301Zm24-520-80-80 80-80 80 80-80 80Zm355 197 48-79 93 7-60-71 35-86-86 35-71-59 7 92-79 49 90 22 23 90Zm165 323-80-80 80-80 80 80-80 80ZM569-570Z" /></svg>
+                                        Improvise message
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+
                     </div>
-
-                    <div className="relative">
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setMenuOpen(!menuOpen);
-                            }}
-                            className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-                            aria-label="Options"
-                        >
-                            <MoreVertical size={24} className="text-zinc-600" />
+                    <div className="flex-1 overflow-x-hidden overflow-y-auto flex flex-col-reverse gap-4 px-4 pb-4 bg-blue-100">
+                        {
+                            messageData?.pages.map(page => {
+                                return page.content.map(msg => <MessageComp key={msg.id} message={msg} />)
+                            })
+                        }
+                        <div ref={ref} className="h-4 shrink-0">
+                            {isFetchingNextPage && <Loader />}
+                        </div>
+                    </div>
+                    <form className="flex p-2 bg-blue-100 gap-2" onSubmit={getFormData} ref={formRef}>
+                        <label htmlFor="message" className="sr-only">message</label>
+                        <AutosizeTextarea name="message" id="message" />
+                        <button className="bg-blue-600 active:scale-95 transition hover:bg-blue-700 text-white rounded-full h-12 w-12 grow-0 grid place-items-center">
+                            <SendHorizonal size={24} />
                         </button>
-
-                        {menuOpen && (
-                            <div className="absolute right-0 mt-2 w-60 bg-white border border-zinc-200 rounded-lg shadow-lg z-50 py-1">
-                                <button
-                                    onClick={handleCall}
-                                    className="w-full text-lg flex items-center gap-3 px-4 py-2 text-zinc-700 hover:bg-blue-100 transition-colors"
-                                >
-                                    <PhoneCall size={18} className="text-blue-600" />
-                                    Start Call
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        setEditorVisible(true);
-                                        setMenuOpen(false);
-                                    }}
-                                    className="w-full flex items-center gap-3 px-4 py-2 text-lg text-zinc-700 hover:bg-blue-100 transition-colors"
-                                >
-                                    <FileText size={18} className="text-blue-600" />
-                                    Show Editor
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        setMenuOpen(false);
-                                        improviseMessage();
-                                    }}
-                                    className="w-full flex items-center gap-3 px-4 py-2 text-lg text-zinc-700 hover:bg-blue-100 transition-colors"
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#155dfc"><path d="m176-120-56-56 301-302-181-45 198-123-17-234 179 151 216-88-87 217 151 178-234-16-124 198-45-181-301 301Zm24-520-80-80 80-80 80 80-80 80Zm355 197 48-79 93 7-60-71 35-86-86 35-71-59 7 92-79 49 90 22 23 90Zm165 323-80-80 80-80 80 80-80 80ZM569-570Z" /></svg>
-                                    Improvise message
-                                </button>
-                            </div>
-                        )}
-                    </div>
-
+                    </form>
                 </div>
-                <div className="flex-1 overflow-x-hidden overflow-y-auto flex flex-col-reverse gap-4 px-4 pb-4 bg-blue-100">
-                    {
-                        messageData?.pages.map(page => {
-                            return page.content.map(msg => <MessageComp key={msg.id} message={msg} />)
-                        })
-                    }
-                    <div ref={ref} className="h-4 shrink-0">
-                        {isFetchingNextPage && <Loader />}
-                    </div>
-                </div>
-                <form className="flex p-2 bg-blue-100 gap-2" onSubmit={getFormData} ref={formRef}>
-                    <label htmlFor="message" className="sr-only">message</label>
-                    <AutosizeTextarea name="message" id="message" />
-                    <button className="bg-blue-600 active:scale-80 transition hover:bg-blue-700 text-white rounded-full h-12 w-12 grow-0 grid place-items-center">
-                        <SendHorizonal size={24} />
-                    </button>
-                </form>
-            </div>
-            :
-            <Editor handleSendMessage={handleSendMessage} close={() => setEditorVisible(false)} />
+            }
+            {
+                editorVisible
+                &&
+                <Editor handleSendMessage={handleSendMessage} close={() => setEditorVisible(false)} />
+            }
+        </>
     );
 }

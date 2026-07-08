@@ -7,17 +7,14 @@ export const EmptyContactView = () => {
 
             <div className="text-center px-6">
 
-                {/* Icon */}
                 <div className="w-34 h-34 mx-auto rounded-full bg-blue-600 flex items-center justify-center mb-5">
                     <User size={40} className="text-white" />
                 </div>
 
-                {/* Title */}
                 <h2 className="text-lg font-semibold text-zinc-900 mb-2">
                     Select a Contact
                 </h2>
 
-                {/* Subtitle */}
                 <p className="text-zinc-700">
                     Choose a contact to start chatting
                 </p>

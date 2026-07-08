@@ -1,13 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-    --font-snpro: snpro;
     --animate-spin: spin 1s cubic-bezier(0.09, 0.35, 0.43, 0.54) infinite;
-}
-
-@font-face {
-    font-family: snpro;
-    src: url("/SNPro.ttf");
 }
 
 @keyframes spin {

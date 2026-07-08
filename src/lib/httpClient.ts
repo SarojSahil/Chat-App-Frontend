@@ -21,7 +21,7 @@ export const httpClient = async ({ uri, method = "GET", body }: RestClientParams
 
     const isFormData = body instanceof FormData;
 
-    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}${uri}`, {
+    const res = await fetch(uri, {
         method,
         headers: {
             ...(!isFormData && { "Content-Type": "application/json" }),

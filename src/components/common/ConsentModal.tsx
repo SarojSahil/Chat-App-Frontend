@@ -41,14 +41,14 @@ export const ConsentModal: FC<ConsentModalProps> = ({
 
                     <button
                         onClick={handleCancel}
-                        className="px-8 py-2.5 rounded-lg border active:scale-80 border-zinc-500 hover:bg-zinc-100 transition text-sm font-medium"
+                        className="px-8 py-2.5 rounded-lg border active:scale-90 border-zinc-500 hover:bg-zinc-100 transition text-sm font-medium"
                     >
                         Cancel
                     </button>
 
                     <button
                         onClick={handleAction}
-                        className="px-8 py-2.5 rounded-lg bg-red-500 active:scale-80 text-white hover:bg-red-600 transition text-sm font-semibold shadow-md shadow-red-200"
+                        className="px-8 py-2.5 rounded-lg bg-red-500 active:scale-90 text-white hover:bg-red-600 transition text-sm font-semibold shadow-md shadow-red-200"
                     >
                         {action}
                     </button>

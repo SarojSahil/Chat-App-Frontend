@@ -3,7 +3,7 @@ import { TableKit } from '@tiptap/extension-table'
 import { generateHTML } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 
-export const MyViewer = ({ content, isReceiver }: { content: string, isReceiver: boolean }) => {
+export const Viewer = ({ content, isReceiver }: { content: string, isReceiver: boolean }) => {
 
     const parsedContent = JSON.parse(content);
 

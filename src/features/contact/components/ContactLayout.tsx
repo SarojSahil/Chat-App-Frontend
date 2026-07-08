@@ -19,7 +19,7 @@ export const ContactLayout = () => {
 
     return (
         <>
-            <div className={`flex-1 ${match ? "block" : "hidden"} lg:block`}>
+            <div tabIndex={0} className={`relative h-full overflow-y-auto flex-1 ${match ? "block" : "hidden"} lg:block`}>
                 <ContactHeader />
                 <ContactListComp />
             </div>
